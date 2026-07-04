@@ -1,45 +1,33 @@
 # Grade Tracker
 
-A Java console application for tracking student grades, built to demonstrate core Object Oriented Programming concepts.
+A Java console application for tracking student grades, upgraded with a real MySQL database using JDBC.
 
 ## Features 
-- Add new students with name, student ID, and course
-- Add grades to any student
-- Calculate average grade automatically
-- Find highest and lowest grade per student
-- Print a full report for any student
-- Interactive menu loop for easy navigation
+- Add new students to a MySQL database
+- Add grades per student
+- Show all students with basic details
+- Print full report with average, highest, and lowest grade
+- Delete students and grades
+- Interactive menu with switch statement
+- Auto-closing database connection with try-with-resources
 
-## Concepts Used
-- Object Oriented Programming (OOP)
-- Encapsulation with protected fields and getters
-- ArrayLists for dynamic grade storage
-- Methods with return types (double)
-- User input handling with Scanner
-- Exception handling
-- For-each loops and iteration
+## Concepts Demonstrated
+- JDBC (Java Database Connectivity)
+- MySQL database with two tables (students, grades)
+- PreparedStatement for safe SQL queries
+- ResultSet iteration 
+- Try-with-resources for connection management
+- Switch statement for menu navigation
+- OOP with encapsulation and getters
 
 ## Tech Stack
-- Java (Apache Netbeans)
-- No external dependencies
-  
+- Java (Apache NetBeans)
+- MySQL 8.0
+- MySQL Connector/J 9.7.0
+
 ## How to Run
-- Clone the repository
-- Open in NetBeans
+- Set up MySQL and create a database called gradetracker
+- Create students and grades tables
+- Add mysql-connector-j to your project classpath
+- Update the url, username and password in GradeTracker.java
 - Run GradeTracker.java
-- Use the menu to add students and grades
-
-## Menu Options
-1. Add New Student
-2. Add Student Grade
-3. Print Report
-4. Exit
-
-## Example Output: 
-Name: John
-Student ID: S0001
-Course: Computer Science
-Average: 85.0
-Highest: 95.0
-Lowest: 75.0
-# GradeTracker-JDBC
