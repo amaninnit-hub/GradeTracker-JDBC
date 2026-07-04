@@ -30,7 +30,11 @@ public double getAverage(){
     return sum / grades.size();
 }
 
-public double getHighest(){
+public double getHighest(){ 
+    if (grades.isEmpty()){
+        return 0;
+    }
+    
     double highest = grades.get(0);
     for(int i = 1; i < grades.size(); i++){
         if (grades.get(i) > highest){
@@ -41,6 +45,9 @@ public double getHighest(){
 }
 
 public double getLowest(){
+    if (grades.isEmpty()){
+        return 0;
+    }
     double lowest = grades.get(0);
     for(int i = 1; i < grades.size(); i++){
         if(grades.get(i) < lowest){
@@ -50,12 +57,22 @@ public double getLowest(){
     return lowest;
 }
 
+public String getStudentId(){
+    return studentID;
+}
+
 public void printReport(){
     System.out.println("Name: " + name);
     System.out.println("StudentID: " + studentID);
     System.out.println("Course: " + course);
     System.out.println("Average: " + getAverage());
     System.out.println("Highest: " + getHighest());
-    System.out.println("Lowest: " + getLowest());
+    System.out.println("Lowest: " + getLowest());  
+}
+
+public void printDetails(){
+    System.out.println("Name: " + name);
+    System.out.println("Student ID: " + studentID);
+    System.out.println("Course: " + course);
 }
 }
