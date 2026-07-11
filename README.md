@@ -27,6 +27,10 @@ A Java console application for tracking student grades, upgraded with a real MyS
 
 ## How to Run
 - Set up MySQL and create a database called gradetracker
+- Create a config.properties file in the project root with:
+    db.url=jdbc:mysql://localhost:3306/gradetracker
+    db.username=your_mysql_username
+    db.password=your_mysql_password
 - Create students and grades tables
 - Add mysql-connector-j to your project classpath
 - Update the url, username and password in GradeTracker.java
