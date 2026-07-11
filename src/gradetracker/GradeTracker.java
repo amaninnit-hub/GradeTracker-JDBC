@@ -7,10 +7,13 @@ import java.util.ArrayList;
 import java.util.Scanner; 
 import java.sql.Connection;
 import java.sql.SQLException;
+import java.util.Properties;
+import java.io.FileInputStream;
+import java.io.IOException;
 
 public class GradeTracker {
 
-    public static void main(String[] args) {
+    public static void main(String[] args){
 //        Scanner sc = new Scanner(System.in);
 //        ArrayList<Students> students = new ArrayList<>();
 //        String choice = " ";
@@ -82,14 +85,28 @@ public class GradeTracker {
 //            }
 //        }
         
-        String url = "jdbc:mysql://localhost:3306/gradetracker";
-        String username = "root";
-        String password = "Aman67890321!";
-        
+//        String url = "jdbc:mysql://localhost:3306/gradetracker";
+//        String username = "root";
+//        String password = "Aman67890321!";
+  
+        Properties props = new Properties();
+        try {
+            FileInputStream fis = new FileInputStream("config.properties");
+            props.load(fis);    
+        } catch (IOException e) {
+            System.out.println("Could not load config file: " + e.getMessage());
+        }     
+
+        String url = props.getProperty("db.url");
+        String username = props.getProperty("db.username");
+        String password = props.getProperty("db.password");
+
         try (Connection conn = DBConnection.connect(url, username, password)){
            
            Scanner sc = new Scanner(System.in);
            boolean running = true;
+           double grade = 0;
+           boolean validInput = false;
            
            while (running) {
                System.out.println("\n====== Grade Tracker ======");
@@ -99,10 +116,11 @@ public class GradeTracker {
                System.out.println("4. Print Report");
                System.out.println("5. Exit");
                
-               String choice = sc.nextLine().trim();
+               String choice = sc.nextLine().trim();  
                
                switch(choice){
-                   case "1": 
+                        
+                   case "1":
                        System.out.println("Enter your name: ");
                        String name = sc.nextLine().trim();
                        System.out.println("Enter student ID: ");
@@ -111,40 +129,49 @@ public class GradeTracker {
                        String course = sc.nextLine().trim();
                        DBConnection.addStudent(conn, name, studentID, course);
                        break;
+                       
                    case "2":
-                       System.out.println("Enter your student ID: ");
-                       String gradeStudentID = sc.nextLine().trim();
-                       System.out.println("Enter a grade: ");
-                       double grade = Double.parseDouble(sc.nextLine().trim());
+                      System.out.println("Enter your student ID: ");
+                      String gradeStudentID = sc.nextLine().trim();
+                      
+                       while(!validInput){
+                           try {
+                               System.out.println("Enter a grade: ");
+                               grade = Double.parseDouble(sc.nextLine().trim());
+                               validInput = true;
+                           } catch (NumberFormatException e){
+                               System.out.println("Invalid input! Please enter a number.");
+                           }
+                       }
                        DBConnection.saveGrade(conn, gradeStudentID, grade);
                        break;
                    case "3": 
                        ArrayList<Students> students = DBConnection.getAllStudents(conn);
                        for(Students student: students){
                            student.printDetails();
-                   }
+                       }
                        break;
                    case "4": 
                        ArrayList<Students> allStudents = DBConnection.getAllStudents(conn);
                        for(Students student: allStudents){
                            DBConnection.loadGrades(conn, student);
                            student.printReport();
-                   }
-                       break;
+                       }
+                       break;   
                    case "5":
                        running = false;
                        System.out.println("Goodbye!");
                        break;
                    default:
                        System.out.println("Invalid choice, try again.");
-               }
+                    }
            }
       
         } catch(SQLException e){
-            System.out.println("Connection failed! " + e.getMessage());
-        }
+                System.out.println("Connection failed! " + e.getMessage());
         }
     }
+}
 
     
 
